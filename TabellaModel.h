@@ -19,7 +19,7 @@ public:
     void notify() override;
 private:
     std::list<Observer*> obs;
-    wxGridTableBase *tabella;
+    wxGridTableBase* tabella;
 };
 
 

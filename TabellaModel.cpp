@@ -5,7 +5,7 @@
 #include "TabellaModel.h"
 
 TabellaModel::TabellaModel() {
-    tabella = new wxGridStringTable(10, 10);
+    tabella = new wxGridStringTable(26, 15);
 }
 
 wxGridTableBase* TabellaModel::getTable() {
