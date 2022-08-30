@@ -1,6 +1,18 @@
 #include <iostream>
+#include <wx/wxprec.h>
+#ifndef WX_PRECOMP
+    #include <wx/wx.h>
+#endif
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+class MyApp: public wxApp
+{
+public:
+    virtual bool OnInit();
+};
+
+wxIMPLEMENT_APP(MyApp);
+
+bool MyApp::OnInit() {
+
+    return true;
 }
