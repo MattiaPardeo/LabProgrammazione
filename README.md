@@ -1,2 +1,2 @@
 # LabProgrammazione
-Progettazione di un foglio di calcolo permil corso di Laboratorio di Programmazione
+Progettazione di un foglio di calcolo per il corso di Laboratorio di Programmazione
