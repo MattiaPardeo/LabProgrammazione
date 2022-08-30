@@ -12,8 +12,9 @@ wxGridTableBase* TabellaModel::getTable() {
     return tabella;
 }
 
-void TabellaModel::setTable(wxGridTableBase *tabella) {
-    this->tabella = tabella;
+void TabellaModel::setTable(wxGridTableBase *tab) {
+    this->tabella = tab;
+    notify();
 }
 
 void TabellaModel::addObserver(Observer *o) {

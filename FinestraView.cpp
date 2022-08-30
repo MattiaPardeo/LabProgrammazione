@@ -4,10 +4,6 @@
 
 #include "FinestraView.h"
 
-void FinestraView::update() {
-    griglia->SetTable(tabella->getTable());
-}
-
 FinestraView::FinestraView(TabellaModel *model, Controller *ctrl, wxWindow *parent, wxWindowID id,
                            const wxString &title, const wxPoint &pos, const wxSize &size, long style) : tabella(model),
                            controller(ctrl), wxFrame( parent, id, title, pos, size, style ) {
@@ -54,18 +50,55 @@ FinestraView::~FinestraView(){
     tabella->removeObserver(this);
 }
 
-void FinestraView::onMinClick(wxCommandEvent& event) {
+void FinestraView::update() {
+    griglia->SetTable(tabella->getTable());
+    griglia->Refresh();
+}
 
+void FinestraView::onMinClick(wxCommandEvent& event) {
+    wxGridCellCoordsArray btl = griglia->GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray bbr = griglia->GetSelectionBlockBottomRight();
+
+    int rigaIniziale = btl[0].GetRow();
+    int colonnaIniziale = btl[0].GetCol();
+    int rigaFinale = bbr[0].GetRow();
+    int colonnaFinale = bbr[0].GetCol();
+
+    controller->min(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia);
 }
 
 void FinestraView::onMaxClick(wxCommandEvent& event) {
+    wxGridCellCoordsArray btl = griglia->GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray bbr = griglia->GetSelectionBlockBottomRight();
 
+    int rigaIniziale = btl[0].GetRow();
+    int colonnaIniziale = btl[0].GetCol();
+    int rigaFinale = bbr[0].GetRow();
+    int colonnaFinale = bbr[0].GetCol();
+
+    controller->max(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia);
 }
 
 void FinestraView::onMediaClick(wxCommandEvent& event) {
+    wxGridCellCoordsArray btl = griglia->GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray bbr = griglia->GetSelectionBlockBottomRight();
 
+    int rigaIniziale = btl[0].GetRow();
+    int colonnaIniziale = btl[0].GetCol();
+    int rigaFinale = bbr[0].GetRow();
+    int colonnaFinale = bbr[0].GetCol();
+
+    controller->media(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia);
 }
 
 void FinestraView::onSommaClick(wxCommandEvent& event) {
+    wxGridCellCoordsArray btl = griglia->GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray bbr = griglia->GetSelectionBlockBottomRight();
 
+    int rigaIniziale = btl[0].GetRow();
+    int colonnaIniziale = btl[0].GetCol();
+    int rigaFinale = bbr[0].GetRow();
+    int colonnaFinale = bbr[0].GetCol();
+
+    controller->somma(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia);
 }
