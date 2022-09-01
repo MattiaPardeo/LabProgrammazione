@@ -6,7 +6,7 @@
 
 FinestraView::FinestraView(TabellaModel *model, Controller *ctrl, wxWindow *parent, wxWindowID id,
                            const wxString &title, const wxPoint &pos, const wxSize &size, long style) : tabella(model),
-                           controller(ctrl), wxFrame( parent, id, title, pos, size, style ) {
+                           controller(ctrl), wxFrame(parent, id, title, pos, size, style) {
 
     //this->SetMaxSize(size);
     //this->SetMinSize(size);
@@ -18,18 +18,18 @@ FinestraView::FinestraView(TabellaModel *model, Controller *ctrl, wxWindow *pare
     griglia->SetGridLineColour(*wxBLACK);
     griglia->DisableDragGridSize();
 
-    min = new wxButton(this, wxID_ANY,wxT("Minimo"), wxDefaultPosition, wxDefaultSize, 0 );
-    max = new wxButton(this, wxID_ANY,wxT("Massimo"), wxDefaultPosition, wxDefaultSize, 0 );
-    media = new wxButton(this, wxID_ANY,wxT("Media"), wxDefaultPosition, wxDefaultSize, 0 );
-    somma = new wxButton(this, wxID_ANY,wxT("Somma"), wxDefaultPosition, wxDefaultSize, 0 );
+    min = new wxButton(this, wxID_ANY, wxT("Minimo"), wxDefaultPosition, wxDefaultSize, 0);
+    max = new wxButton(this, wxID_ANY, wxT("Massimo"), wxDefaultPosition, wxDefaultSize, 0);
+    media = new wxButton(this, wxID_ANY, wxT("Media"), wxDefaultPosition, wxDefaultSize, 0);
+    somma = new wxButton(this, wxID_ANY, wxT("Somma"), wxDefaultPosition, wxDefaultSize, 0);
 
-    wxBoxSizer* sizerPulsanti = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer *sizerPulsanti = new wxBoxSizer(wxHORIZONTAL);
     sizerPulsanti->Add(min, 0, wxALL, 5);
     sizerPulsanti->Add(max, 0, wxALL, 5);
     sizerPulsanti->Add(media, 0, wxALL, 5);
     sizerPulsanti->Add(somma, 0, wxALL, 5);
     //Layout();
-    wxBoxSizer* sizerFinestra = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer *sizerFinestra = new wxBoxSizer(wxVERTICAL);
 
     sizerFinestra->Add(griglia, 1, wxEXPAND, 5);
     sizerFinestra->Add(sizerPulsanti, 1, wxEXPAND, 5);
@@ -41,7 +41,7 @@ FinestraView::FinestraView(TabellaModel *model, Controller *ctrl, wxWindow *pare
     somma->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FinestraView::onSommaClick), nullptr, this);
 }
 
-FinestraView::~FinestraView(){
+FinestraView::~FinestraView() {
     min->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FinestraView::onMinClick), nullptr, this);
     max->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FinestraView::onMaxClick), nullptr, this);
     media->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FinestraView::onMediaClick), nullptr, this);
@@ -55,50 +55,98 @@ void FinestraView::update() {
     griglia->Refresh();
 }
 
-void FinestraView::onMinClick(wxCommandEvent& event) {
+void FinestraView::onMinClick(wxCommandEvent &event) {
     wxGridCellCoordsArray btl = griglia->GetSelectionBlockTopLeft();
     wxGridCellCoordsArray bbr = griglia->GetSelectionBlockBottomRight();
 
-    int rigaIniziale = btl[0].GetRow();
-    int colonnaIniziale = btl[0].GetCol();
-    int rigaFinale = bbr[0].GetRow();
-    int colonnaFinale = bbr[0].GetCol();
-
-    controller->min(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia);
+    if (!(btl.IsEmpty() && bbr.IsEmpty())) {
+        int rigaIniziale = btl[0].GetRow();
+        int colonnaIniziale = btl[0].GetCol();
+        int rigaFinale = bbr[0].GetRow();
+        int colonnaFinale = bbr[0].GetCol();
+        if (rigaIniziale != rigaFinale && colonnaIniziale != colonnaFinale) {
+            wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("Selezionare una sola riga od una sola colonna"),
+                                                        wxT("Errore"), wxOK);
+            dial->ShowModal();
+            delete dial;
+        } else {
+            controller->min(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia->GetTable());
+        }
+    } else {
+        wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("Selezionare più celle"), wxT("Errore"), wxOK);
+        dial->ShowModal();
+        delete dial;
+    }
 }
 
-void FinestraView::onMaxClick(wxCommandEvent& event) {
+void FinestraView::onMaxClick(wxCommandEvent &event) {
     wxGridCellCoordsArray btl = griglia->GetSelectionBlockTopLeft();
     wxGridCellCoordsArray bbr = griglia->GetSelectionBlockBottomRight();
 
-    int rigaIniziale = btl[0].GetRow();
-    int colonnaIniziale = btl[0].GetCol();
-    int rigaFinale = bbr[0].GetRow();
-    int colonnaFinale = bbr[0].GetCol();
-
-    controller->max(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia);
+    if (!(btl.IsEmpty() && bbr.IsEmpty())) {
+        int rigaIniziale = btl[0].GetRow();
+        int colonnaIniziale = btl[0].GetCol();
+        int rigaFinale = bbr[0].GetRow();
+        int colonnaFinale = bbr[0].GetCol();
+        if (rigaIniziale != rigaFinale && colonnaIniziale != colonnaFinale) {
+            wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("Selezionare una sola riga od una sola colonna"),
+                                                        wxT("Errore"), wxOK);
+            dial->ShowModal();
+            delete dial;
+        } else {
+            controller->max(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia->GetTable());
+        }
+    } else {
+        wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("Selezionare più celle"), wxT("Errore"), wxOK);
+        dial->ShowModal();
+        delete dial;
+    }
 }
 
-void FinestraView::onMediaClick(wxCommandEvent& event) {
+void FinestraView::onMediaClick(wxCommandEvent &event) {
     wxGridCellCoordsArray btl = griglia->GetSelectionBlockTopLeft();
     wxGridCellCoordsArray bbr = griglia->GetSelectionBlockBottomRight();
 
-    int rigaIniziale = btl[0].GetRow();
-    int colonnaIniziale = btl[0].GetCol();
-    int rigaFinale = bbr[0].GetRow();
-    int colonnaFinale = bbr[0].GetCol();
-
-    controller->media(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia);
+    if (!(btl.IsEmpty() && bbr.IsEmpty())) {
+        int rigaIniziale = btl[0].GetRow();
+        int colonnaIniziale = btl[0].GetCol();
+        int rigaFinale = bbr[0].GetRow();
+        int colonnaFinale = bbr[0].GetCol();
+        if (rigaIniziale != rigaFinale && colonnaIniziale != colonnaFinale) {
+            wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("Selezionare una sola riga od una sola colonna"),
+                                                        wxT("Errore"), wxOK);
+            dial->ShowModal();
+            delete dial;
+        } else {
+            controller->media(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia->GetTable());
+        }
+    } else {
+        wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("Selezionare più celle"), wxT("Errore"), wxOK);
+        dial->ShowModal();
+        delete dial;
+    }
 }
 
-void FinestraView::onSommaClick(wxCommandEvent& event) {
+void FinestraView::onSommaClick(wxCommandEvent &event) {
     wxGridCellCoordsArray btl = griglia->GetSelectionBlockTopLeft();
     wxGridCellCoordsArray bbr = griglia->GetSelectionBlockBottomRight();
 
-    int rigaIniziale = btl[0].GetRow();
-    int colonnaIniziale = btl[0].GetCol();
-    int rigaFinale = bbr[0].GetRow();
-    int colonnaFinale = bbr[0].GetCol();
-
-    controller->somma(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia);
+    if (!(btl.IsEmpty() && bbr.IsEmpty())) {
+        int rigaIniziale = btl[0].GetRow();
+        int colonnaIniziale = btl[0].GetCol();
+        int rigaFinale = bbr[0].GetRow();
+        int colonnaFinale = bbr[0].GetCol();
+        if (rigaIniziale != rigaFinale && colonnaIniziale != colonnaFinale) {
+            wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("Selezionare una sola riga od una sola colonna"),
+                                                        wxT("Errore"), wxOK);
+            dial->ShowModal();
+            delete dial;
+        } else {
+            controller->somma(rigaIniziale, rigaFinale, colonnaIniziale, colonnaFinale, griglia->GetTable());
+        }
+    } else {
+        wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("Selezionare più celle"), wxT("Errore"), wxOK);
+        dial->ShowModal();
+        delete dial;
+    }
 }

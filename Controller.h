@@ -13,10 +13,10 @@ class Controller {
 public:
     Controller(TabellaModel* tm) : tabella(tm){}
 
-    void min(int rigaIniziale, int rigaFinale, int colonnaIniziale, int colonnaFinale, const wxGrid* griglia);
-    void max(int rigaIniziale, int rigaFinale, int colonnaIniziale, int colonnaFinale, wxGrid* griglia);
-    void media(int rigaIniziale, int rigaFinale, int colonnaIniziale, int colonnaFinale, wxGrid* griglia);
-    void somma(int rigaIniziale, int rigaFinale, int colonnaIniziale, int colonnaFinale, wxGrid* griglia);
+    void min(int rigaIniziale, int rigaFinale, int colonnaIniziale, int colonnaFinale, wxGridTableBase* tab);
+    void max(int rigaIniziale, int rigaFinale, int colonnaIniziale, int colonnaFinale, wxGridTableBase* tab);
+    void media(int rigaIniziale, int rigaFinale, int colonnaIniziale, int colonnaFinale, wxGridTableBase* tab);
+    void somma(int rigaIniziale, int rigaFinale, int colonnaIniziale, int colonnaFinale, wxGridTableBase* tab);
 
 private:
     TabellaModel* tabella;
