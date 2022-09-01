@@ -21,6 +21,13 @@ bool MyApp::OnInit() {
     Controller *ctrl = new Controller(tabella);
     FinestraView *finestra = new FinestraView(tabella, ctrl);
     finestra->Show();
+    wxMessageDialog *dial = new wxMessageDialog(NULL, wxT("FUNZIONAMENTO: selezionare trascinando col "
+                                                          "mouse una sola riga od una sola colonna su cui effettuare le "
+                                                          "operazioni, l'ultima cella a destra (se riga) o l'ultima cella in "
+                                                          "basso (se colonna) sarà la cella su cui verrà stampato il risultato"),
+                                                wxT("Info"), wxOK);
+    dial->ShowModal();
+    delete dial;
 
     return true;
 }
