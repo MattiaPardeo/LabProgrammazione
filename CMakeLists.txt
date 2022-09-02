@@ -3,9 +3,15 @@ project(LabProgrammazione)
 
 set(CMAKE_CXX_STANDARD 14)
 
+add_subdirectory(test)
+
 find_package(wxWidgets REQUIRED net gl core base xrc adv)
 include(${wxWidgets_USE_FILE})
 
-add_executable(LabProgrammazione main.cpp Observer.h Subject.h FinestraView.cpp FinestraView.h Controller.cpp Controller.h TabellaModel.cpp TabellaModel.h)
+set(SOURCE_FILES  Observer.h Subject.h FinestraView.cpp FinestraView.h Controller.cpp Controller.h TabellaModel.cpp TabellaModel.h)
 
-target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
+add_executable(LabProgrammazione main.cpp)
+
+add_library(core ${SOURCE_FILES})
+
+target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES} core)
