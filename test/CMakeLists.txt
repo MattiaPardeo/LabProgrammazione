@@ -4,6 +4,9 @@ add_subdirectory(./lib/googletest)
 set(gtest_SOURCE_DIR, ./lib/googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-set(TEST_SOURCE_FILES eseguiTest.cpp)
+find_package(wxWidgets REQUIRED net gl core base xrc adv)
+include(${wxWidgets_USE_FILE})
+
+set(TEST_SOURCE_FILES eseguiTest.cpp TabellaModelTest.cpp ControllerFixture.cpp)
 add_executable(TestFoglio ${TEST_SOURCE_FILES})
-target_link_libraries(TestFoglio gtest gtest_main core)
+target_link_libraries(TestFoglio gtest gtest_main core ${wxWidgets_LIBRARIES})
